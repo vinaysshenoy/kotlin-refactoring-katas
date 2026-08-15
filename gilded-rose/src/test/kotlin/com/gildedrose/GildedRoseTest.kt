@@ -90,4 +90,50 @@ class GildedRoseTest {
       Item("Sulfuras, Hand of Ragnaros", -1, 80),
     ))
   }
+
+  @Test
+  fun `backstage passes should increase in quality closer to sell by date changes`() {
+    val item = Item("Backstage passes to a TAFKAL80ETC concert", 12, 10)
+
+    val store = GildedRose.create(item)
+
+    // 11 days
+    var newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 11, quality = 11),
+    ))
+
+    // 10 days
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 10, quality = 12),
+    ))
+
+    // 9 days
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 9, quality = 14),
+    ))
+
+    // 8 -> 5 days
+    store.updateQuality()
+    store.updateQuality()
+    store.updateQuality()
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 5, quality = 22),
+    ))
+
+    // 5 -> 4
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 4, quality = 25)
+    ))
+
+    // 4 -> 3
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 3, quality = 28)
+    ))
+  }
 }
