@@ -84,3 +84,18 @@ class Sulfuras(sellIn: Int): GildedRoseItem(
     return sellIn
   }
 }
+
+class GeneralItem(
+  name: String,
+  sellIn: Int,
+  quality: Int
+): GildedRoseItem(name, sellIn, quality) {
+  override fun calculateQuality(): Int {
+    val qualityDecrement = if (sellIn <= 0) 2 else 1
+    return (quality - qualityDecrement).coerceAtLeast(0)
+  }
+
+  override fun calculateSellIn(): Int {
+    return sellIn - 1
+  }
+}

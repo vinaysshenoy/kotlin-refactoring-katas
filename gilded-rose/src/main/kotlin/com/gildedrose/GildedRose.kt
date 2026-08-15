@@ -8,21 +8,10 @@ class GildedRose(var items: Array<Item>) {
   }
 
   fun updateQuality(): List<Item> {
-    for (i in items.indices) {
-      val itemToProcess = items[i]
-
-      when {
-        itemToProcess is AgedBrie || itemToProcess is BackstagePass || itemToProcess is Sulfuras -> {
-          itemToProcess.quality = (itemToProcess as GildedRoseItem).calculateQuality()
-          itemToProcess.sellIn = (itemToProcess as GildedRoseItem).calculateSellIn()
-        }
-
-        else -> {
-          val qualityDecrement = if (itemToProcess.sellIn <= 0) 2 else 1
-          itemToProcess.quality = (itemToProcess.quality - qualityDecrement).coerceAtLeast(0)
-          itemToProcess.sellIn = itemToProcess.sellIn - 1
-        }
-      }
+    items.onEach {
+      val itemToProcess = it as GildedRoseItem
+      itemToProcess.quality = itemToProcess.calculateQuality()
+      itemToProcess.sellIn = itemToProcess.calculateSellIn()
     }
 
     return items.toList()
