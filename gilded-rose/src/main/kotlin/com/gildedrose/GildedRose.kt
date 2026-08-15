@@ -16,38 +16,19 @@ class GildedRose(var items: Array<Item>) {
           itemToProcess.quality = (itemToProcess.quality + 1).coerceAtMost(50)
         }
         "Backstage passes to a TAFKAL80ETC concert" -> {
-          itemToProcess.quality = (itemToProcess.quality + 1).coerceAtMost(50)
+          val qualityIncrement = when {
+            itemToProcess.sellIn <= 5 -> 3
+            itemToProcess.sellIn <= 10 -> 2
+            else -> 1
+          }
+          itemToProcess.quality = (itemToProcess.quality + qualityIncrement).coerceAtMost(50)
         }
         "Sulfuras, Hand of Ragnaros" -> {}
         else ->  {
           itemToProcess.quality = (itemToProcess.quality - 1).coerceAtLeast(0)
         }
       }
-
-      if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-        if (items[i].quality > 0) {
-          if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-          }
-        }
-      } else {
-        if (items[i].quality < 50) {
-
-          if (items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
-            if (items[i].sellIn < 11) {
-              if (items[i].quality < 50) {
-                items[i].quality = items[i].quality + 1
-              }
-            }
-
-            if (items[i].sellIn < 6) {
-              if (items[i].quality < 50) {
-                items[i].quality = items[i].quality + 1
-              }
-            }
-          }
-        }
-      }
-
+      
       if (items[i].name != "Sulfuras, Hand of Ragnaros") {
         items[i].sellIn = items[i].sellIn - 1
       }
