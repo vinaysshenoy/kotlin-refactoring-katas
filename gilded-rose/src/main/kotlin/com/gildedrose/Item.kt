@@ -70,3 +70,17 @@ class BackstagePass(
     return sellIn - 1
   }
 }
+
+class Sulfuras(sellIn: Int): GildedRoseItem(
+  name = "Sulfuras, Hand of Ragnaros",
+  sellIn = sellIn,
+  quality = 80
+) {
+  override fun calculateQuality(): Int {
+    return quality
+  }
+
+  override fun calculateSellIn(): Int {
+    return sellIn
+  }
+}

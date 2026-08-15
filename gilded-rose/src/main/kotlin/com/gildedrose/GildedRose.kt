@@ -12,16 +12,10 @@ class GildedRose(var items: Array<Item>) {
       val itemToProcess = items[i]
 
       when {
-        itemToProcess is AgedBrie -> {
-          itemToProcess.quality = itemToProcess.calculateQuality()
-          itemToProcess.sellIn = itemToProcess.calculateSellIn()
+        itemToProcess is AgedBrie || itemToProcess is BackstagePass || itemToProcess is Sulfuras -> {
+          itemToProcess.quality = (itemToProcess as GildedRoseItem).calculateQuality()
+          itemToProcess.sellIn = (itemToProcess as GildedRoseItem).calculateSellIn()
         }
-
-        itemToProcess is BackstagePass -> {
-          itemToProcess.quality = itemToProcess.calculateQuality()
-          itemToProcess.sellIn = itemToProcess.calculateSellIn()
-        }
-        itemToProcess.name == "Sulfuras, Hand of Ragnaros" -> {}
 
         else -> {
           val qualityDecrement = if (itemToProcess.sellIn <= 0) 2 else 1

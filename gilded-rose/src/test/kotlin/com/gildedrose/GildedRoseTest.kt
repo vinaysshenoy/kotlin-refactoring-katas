@@ -79,15 +79,15 @@ class GildedRoseTest {
 
   @Test
   fun `sulfuras should never be negative quality nor sell by date changes`() {
-    val sulfuras1 = Item("Sulfuras, Hand of Ragnaros", 10, 80)
-    val sulfuras2 = Item("Sulfuras, Hand of Ragnaros", -1, 80)
+    val sulfuras1 = Sulfuras(10)
+    val sulfuras2 = Sulfuras(-1)
 
     val store = GildedRose.create(sulfuras1, sulfuras2)
 
     val newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item("Sulfuras, Hand of Ragnaros", 10, 80),
-      Item("Sulfuras, Hand of Ragnaros", -1, 80),
+      Sulfuras(10),
+      Sulfuras(-1),
     ))
   }
 
