@@ -192,4 +192,26 @@ class GildedRoseTest {
       BackstagePass(sellIn = -1, quality = 0),
     ))
   }
+
+  @Test
+  fun `conjured items degrade twice as fast`() {
+    val conjuredShield = ConjuredItem(name = "Shield", sellIn = 5, quality = 10)
+    val conjuredSword = ConjuredItem(name = "Sword", sellIn = 2, quality = 3)
+
+    val store = GildedRose.create(conjuredShield, conjuredSword)
+
+    // 5 -> 4 days
+    var newItems = store.updateQuality()
+    assertContentEquals(expected = newItems, actual = listOf(
+      ConjuredItem(name = "Shield", sellIn = 4, quality = 8),
+      ConjuredItem(name = "Sword", sellIn = 1, quality = 1)
+    ))
+
+    // 4 -> 3 days
+    newItems = store.updateQuality()
+    assertContentEquals(expected = newItems, actual = listOf(
+      ConjuredItem(name = "Shield", sellIn = 3, quality = 6),
+      ConjuredItem(name = "Sword", sellIn = 0, quality = 0)
+    ))
+  }
 }

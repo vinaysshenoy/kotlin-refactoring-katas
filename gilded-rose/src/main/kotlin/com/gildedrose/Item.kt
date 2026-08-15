@@ -99,3 +99,17 @@ class GeneralItem(
     return sellIn - 1
   }
 }
+
+class ConjuredItem(
+  name: String,
+  sellIn: Int,
+  quality: Int
+): GildedRoseItem("Conjured $name", sellIn, quality) {
+  override fun calculateQuality(): Int {
+    return (quality - 2).coerceAtLeast(0)
+  }
+
+  override fun calculateSellIn(): Int {
+    return sellIn - 1
+  }
+}
