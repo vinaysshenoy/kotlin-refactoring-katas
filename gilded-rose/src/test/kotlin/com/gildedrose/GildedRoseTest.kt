@@ -50,4 +50,18 @@ class GildedRoseTest {
       Item("Vegetables", -1, 6),
     ))
   }
+
+  @Test
+  fun `quality of item can never be negative`() {
+    val phone = Item("Phone", 10, 30)
+    val vegetables = Item("Vegetables", 2, 0)
+
+    val store = GildedRose.create(phone, vegetables)
+
+    val newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item("Phone", 9, 29),
+      Item("Vegetables", 1, 0),
+    ))
+  }
 }
