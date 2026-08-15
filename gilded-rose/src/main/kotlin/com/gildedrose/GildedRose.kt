@@ -15,13 +15,15 @@ class GildedRose(var items: Array<Item>) {
         "Aged Brie" -> {}
         "Backstage passes to a TAFKAL80ETC concert" -> {}
         "Sulfuras, Hand of Ragnaros" -> {}
-        else ->  {}
+        else ->  {
+          itemToProcess.quality = (itemToProcess.quality - 1).coerceAtLeast(0)
+        }
       }
 
       if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
         if (items[i].quality > 0) {
           if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-            items[i].quality = items[i].quality - 1
+//            items[i].quality = items[i].quality - 1
           }
         }
       } else {
