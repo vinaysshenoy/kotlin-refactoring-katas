@@ -64,4 +64,17 @@ class GildedRoseTest {
       Item("Vegetables", 1, 0),
     ))
   }
+
+  @Test
+  fun `aged brie has to increase in quality with age`() {
+    val agedBrie = Item("Aged Brie", 10, 30)
+
+    val store = GildedRose.create(agedBrie)
+
+    val newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item("Aged Brie", 9, 31),
+    ))
+  }
+
 }
