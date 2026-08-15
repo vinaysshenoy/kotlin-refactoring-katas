@@ -17,21 +17,10 @@ class GildedRose(var items: Array<Item>) {
           itemToProcess.sellIn = itemToProcess.calculateSellIn()
         }
 
-        itemToProcess.name == "Backstage passes to a TAFKAL80ETC concert" -> {
-          if (itemToProcess.sellIn <= 0) {
-            itemToProcess.quality = 0
-          } else {
-            val qualityIncrement = when {
-              itemToProcess.sellIn <= 5 -> 3
-              itemToProcess.sellIn <= 10 -> 2
-              else -> 1
-            }
-            itemToProcess.quality = (itemToProcess.quality + qualityIncrement).coerceAtMost(50)
-          }
-          itemToProcess.sellIn = itemToProcess.sellIn - 1
-
+        itemToProcess is BackstagePass -> {
+          itemToProcess.quality = itemToProcess.calculateQuality()
+          itemToProcess.sellIn = itemToProcess.calculateSellIn()
         }
-
         itemToProcess.name == "Sulfuras, Hand of Ragnaros" -> {}
 
         else -> {

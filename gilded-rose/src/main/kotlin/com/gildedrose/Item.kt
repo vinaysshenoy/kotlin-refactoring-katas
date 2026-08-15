@@ -49,3 +49,24 @@ class AgedBrie(
     return sellIn - 1
   }
 }
+
+class BackstagePass(
+  sellIn: Int,
+  quality: Int
+): GildedRoseItem(name = "Backstage passes to a TAFKAL80ETC concert", sellIn, quality) {
+  override fun calculateQuality(): Int {
+    val qualityIncrement = computeDemandDrivenQuality(sellIn)
+    return (quality + qualityIncrement).coerceAtMost(50)
+  }
+
+  private fun computeDemandDrivenQuality(sellWithinDays: Int): Int = when {
+    sellWithinDays <= 0 -> -quality
+    sellWithinDays <= 5 -> 3
+    sellWithinDays <= 10 -> 2
+    else -> 1
+  }
+
+  override fun calculateSellIn(): Int {
+    return sellIn - 1
+  }
+}

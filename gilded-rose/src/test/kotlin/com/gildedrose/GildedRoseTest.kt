@@ -93,26 +93,26 @@ class GildedRoseTest {
 
   @Test
   fun `backstage passes should increase in quality closer to sell by date changes`() {
-    val item = Item("Backstage passes to a TAFKAL80ETC concert", 12, 10)
+    val item = BackstagePass(12, 10)
 
     val store = GildedRose.create(item)
 
     // 11 days
     var newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 11, quality = 11),
+      BackstagePass(sellIn = 11, quality = 11),
     ))
 
     // 10 days
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 10, quality = 12),
+      BackstagePass(sellIn = 10, quality = 12),
     ))
 
     // 9 days
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 9, quality = 14),
+      BackstagePass(sellIn = 9, quality = 14),
     ))
 
     // 8 -> 5 days
@@ -121,75 +121,75 @@ class GildedRoseTest {
     store.updateQuality()
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 5, quality = 22),
+      BackstagePass(sellIn = 5, quality = 22),
     ))
 
     // 5 -> 4
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 4, quality = 25)
+      BackstagePass(sellIn = 4, quality = 25)
     ))
 
     // 4 -> 3
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 3, quality = 28)
+      BackstagePass(sellIn = 3, quality = 28)
     ))
   }
 
   @Test
   fun `backstage passes should drop quality to 0 post sell by date`() {
-    val item = Item("Backstage passes to a TAFKAL80ETC concert", 2, 10)
+    val item = BackstagePass(2, 10)
 
     val store = GildedRose.create(item)
 
     // 2 -> 1 days
     var newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 1, quality = 13),
+      BackstagePass(sellIn = 1, quality = 13),
     ))
 
     // 1 -> 0 days
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 0, quality = 16),
+      BackstagePass(sellIn = 0, quality = 16),
     ))
 
     // 0 -> -1 days
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = -1, quality = 0),
+      BackstagePass(sellIn = -1, quality = 0),
     ))
 
     // -1 -> -2 days
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = -2, quality = 0),
+      BackstagePass(sellIn = -2, quality = 0),
     ))
   }
 
   @Test
   fun `backstage passes quality can never exceed 50`() {
-    val item = Item("Backstage passes to a TAFKAL80ETC concert", 2, 49)
+    val item = BackstagePass(2, 49)
 
     val store = GildedRose.create(item)
 
     // 2 -> 1 days
     var newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 1, quality = 50),
+      BackstagePass(sellIn = 1, quality = 50),
     ))
 
     // 1 -> 0 days
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = 0, quality = 50),
+      BackstagePass(sellIn = 0, quality = 50),
     ))
 
     // 0 -> -1 days
     newItems = store.updateQuality()
     assertContentEquals(newItems, listOf(
-      Item(name = item.name, sellIn = -1, quality = 0),
+      BackstagePass(sellIn = -1, quality = 0),
     ))
   }
 }
