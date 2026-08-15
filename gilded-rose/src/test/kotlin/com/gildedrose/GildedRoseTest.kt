@@ -168,4 +168,28 @@ class GildedRoseTest {
     ))
   }
 
+  @Test
+  fun `backstage passes quality can never exceed 50`() {
+    val item = Item("Backstage passes to a TAFKAL80ETC concert", 2, 49)
+
+    val store = GildedRose.create(item)
+
+    // 2 -> 1 days
+    var newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 1, quality = 50),
+    ))
+
+    // 1 -> 0 days
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = 0, quality = 50),
+    ))
+
+    // 0 -> -1 days
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item(name = item.name, sellIn = -1, quality = 0),
+    ))
+  }
 }
