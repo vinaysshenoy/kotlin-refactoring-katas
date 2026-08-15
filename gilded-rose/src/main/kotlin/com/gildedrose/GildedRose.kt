@@ -1,7 +1,13 @@
 package com.gildedrose
 
 class GildedRose(var items: Array<Item>) {
-  fun updateQuality(): Array<Item> {
+  companion object {
+    fun create(vararg items: Item = emptyArray()): GildedRose {
+      return GildedRose(arrayOf(*items))
+    }
+  }
+
+  fun updateQuality(): List<Item> {
     for (i in items.indices) {
       if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
         if (items[i].quality > 0) {
@@ -52,6 +58,6 @@ class GildedRose(var items: Array<Item>) {
       }
     }
 
-    return items
+    return items.toList()
   }
 }

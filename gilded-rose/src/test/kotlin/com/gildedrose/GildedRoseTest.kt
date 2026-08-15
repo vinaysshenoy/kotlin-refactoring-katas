@@ -5,28 +5,49 @@ import kotlin.test.assertContentEquals
 
 class GildedRoseTest {
 
-  private fun setupAndRun(inventory: Array<Item>): Array<Item> {
-    val store = GildedRose(inventory)
-    return store.updateQuality()
-  }
-
   @Test
   fun `it should handle empty items`() {
-    val items = emptyArray<Item>()
-    val newItems = setupAndRun(items)
-    assertContentEquals(emptyArray<Item>(), newItems)
+    val store = GildedRose.create()
+    val newItems = store.updateQuality()
+    assertContentEquals(emptyList(), newItems)
   }
 
   @Test
   fun `item sell in and quality should decrease each day`() {
-    val items = arrayOf(
-      Item("Phone", 10, 30)
-    )
+    val phone = Item("Phone", 10, 30)
+    val newItems = GildedRose.create(phone).updateQuality()
 
-    val newItems = setupAndRun(items)
-
-    assertContentEquals(newItems, arrayOf(
+    assertContentEquals(newItems, listOf(
       Item("Phone", 9, 29),
+    ))
+  }
+
+  @Test
+  fun `post sell by date item quality should degrade twice as fast`() {
+    val phone = Item("Phone", 10, 30)
+    val vegetables = Item("Vegetables", 2, 10)
+
+    val store = GildedRose.create(phone, vegetables)
+
+    // day 1
+    var newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item("Phone", 9, 29),
+      Item("Vegetables", 1, 9),
+    ))
+
+    // day 2
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item("Phone", 8, 28),
+      Item("Vegetables", 0, 8),
+    ))
+
+    // day 3
+    newItems = store.updateQuality()
+    assertContentEquals(newItems, listOf(
+      Item("Phone", 7, 27),
+      Item("Vegetables", -1, 6),
     ))
   }
 }
