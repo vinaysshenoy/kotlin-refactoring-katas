@@ -9,6 +9,15 @@ class GildedRose(var items: Array<Item>) {
 
   fun updateQuality(): List<Item> {
     for (i in items.indices) {
+      val itemToProcess = items[i]
+
+      when(itemToProcess.name) {
+        "Aged Brie" -> {}
+        "Backstage passes to a TAFKAL80ETC concert" -> {}
+        "Sulfuras, Hand of Ragnaros" -> {}
+        else ->  {}
+      }
+
       if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
         if (items[i].quality > 0) {
           if (items[i].name != "Sulfuras, Hand of Ragnaros") {
