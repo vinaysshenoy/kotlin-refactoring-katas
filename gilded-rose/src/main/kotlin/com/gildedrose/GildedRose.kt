@@ -11,12 +11,13 @@ class GildedRose(var items: Array<Item>) {
     for (i in items.indices) {
       val itemToProcess = items[i]
 
-      when(itemToProcess.name) {
-        "Aged Brie" -> {
-          itemToProcess.quality = (itemToProcess.quality + 1).coerceAtMost(50)
-          itemToProcess.sellIn = itemToProcess.sellIn - 1
+      when {
+        itemToProcess is AgedBrie -> {
+          itemToProcess.quality = itemToProcess.calculateQuality()
+          itemToProcess.sellIn = itemToProcess.calculateSellIn()
         }
-        "Backstage passes to a TAFKAL80ETC concert" -> {
+
+        itemToProcess.name == "Backstage passes to a TAFKAL80ETC concert" -> {
           if (itemToProcess.sellIn <= 0) {
             itemToProcess.quality = 0
           } else {
@@ -28,9 +29,12 @@ class GildedRose(var items: Array<Item>) {
             itemToProcess.quality = (itemToProcess.quality + qualityIncrement).coerceAtMost(50)
           }
           itemToProcess.sellIn = itemToProcess.sellIn - 1
+
         }
-        "Sulfuras, Hand of Ragnaros" -> {}
-        else ->  {
+
+        itemToProcess.name == "Sulfuras, Hand of Ragnaros" -> {}
+
+        else -> {
           val qualityDecrement = if (itemToProcess.sellIn <= 0) 2 else 1
           itemToProcess.quality = (itemToProcess.quality - qualityDecrement).coerceAtLeast(0)
           itemToProcess.sellIn = itemToProcess.sellIn - 1

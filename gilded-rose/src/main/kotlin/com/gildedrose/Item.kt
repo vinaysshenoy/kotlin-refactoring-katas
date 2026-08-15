@@ -24,6 +24,28 @@ open class Item(var name: String, var sellIn: Int, var quality: Int) {
     result = 31 * result + name.hashCode()
     return result
   }
+}
 
+interface CalculateQuality {
+  fun calculateQuality(): Int
+}
 
+interface CalculateSellIn {
+  fun calculateSellIn(): Int
+}
+
+abstract class GildedRoseItem(name: String, sellIn: Int, quality: Int) : CalculateQuality, CalculateSellIn,
+  Item(name, sellIn, quality)
+
+class AgedBrie(
+  sellIn: Int,
+  quality: Int
+): GildedRoseItem("Aged Brie", sellIn, quality) {
+  override fun calculateQuality(): Int {
+    return (quality + 1).coerceAtMost(50)
+  }
+
+  override fun calculateSellIn(): Int {
+    return sellIn - 1
+  }
 }
